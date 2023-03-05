@@ -9,7 +9,7 @@
   },
   "scripts": {
     "build": "pnpm run build:sass",
-    "build:sass": "sass --no-source-map --load-path=node_modules/modern-normalize src/styles/index.scss:src/styles/index.css"
+    "build:sass": "sass --no-source-map --load-path=node_modules/modern-normalize src/styles/index.scss:src/styles/test.css"
   },
   "dependencies": {
     "modern-normalize": "^1.1.0"

@@ -7,8 +7,9 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "turbo run build",
-    "dev": "turbo run dev --no-daemon",
+    "build:leads": "turbo run build:leads --filter ./packages/rms-leads",
+    "dev:leads": "turbo run dev:leads --no-daemon --filter ./packages/rms-leads",
+    "build:sass": "turbo run build:sass --filter ./packages/shared",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },

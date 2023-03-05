@@ -2,7 +2,7 @@
   "$schema": "https://turbo.build/schema.json",
   "globalDependencies": ["**/.env.*local"],
   "pipeline": {
-    "build": {
+    "build:leads": {
       "dependsOn": ["^build"],
       "outputs": ["dist/**"]
     },
@@ -10,6 +10,11 @@
       "outputs": []
     },
     "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "dev:leads": {
+      "dependsOn": ["^@dci/shared#build:sass"],
       "cache": false,
       "persistent": true
     }

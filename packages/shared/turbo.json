@@ -1,0 +1,9 @@
+{
+  "extends": ["//"],
+  "pipeline": {
+    "build:sass": {
+      "outputs": ["dist/**"],
+      "inputs": ["src/styles/*.scss"]
+    }
+  }
+}
