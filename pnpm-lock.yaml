@@ -8,6 +8,7 @@ importers:
       '@types/react': ^18.0.27
       '@types/react-dom': ^18.0.10
       '@vitejs/plugin-react': ^3.1.0
+      postcss: ^8.4.21
       prettier: latest
       react: ^18.2.0
       react-dom: ^18.2.0
@@ -22,6 +23,7 @@ importers:
       '@types/react': 18.0.28
       '@types/react-dom': 18.0.11
       '@vitejs/plugin-react': 3.1.0_vite@4.1.4
+      postcss: 8.4.21
       prettier: 2.8.4
       turbo: 1.8.3
       typescript: 4.9.5
@@ -30,17 +32,22 @@ importers:
   packages/rms-leads:
     specifiers:
       '@dci/shared': workspace:^0.0.0
+      postcss-pxtorem: ^6.0.0
       sass: ^1.58.3
     dependencies:
       '@dci/shared': link:../shared
     devDependencies:
+      postcss-pxtorem: 6.0.0
       sass: 1.58.3
 
   packages/shared:
     specifiers:
       modern-normalize: ^1.1.0
+      sass: ^1.58.3
     dependencies:
       modern-normalize: 1.1.0
+    devDependencies:
+      sass: 1.58.3
 
 packages:
 
@@ -842,6 +849,12 @@ packages:
   /picomatch/2.3.1:
     resolution: {integrity: sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==}
     engines: {node: '>=8.6'}
+    dev: true
+
+  /postcss-pxtorem/6.0.0:
+    resolution: {integrity: sha512-ZRXrD7MLLjLk2RNGV6UA4f5Y7gy+a/j1EqjAfp9NdcNYVjUMvg5HTYduTjSkKBkRkfqbg/iKrjMO70V4g1LZeg==}
+    peerDependencies:
+      postcss: ^8.0.0
     dev: true
 
   /postcss/8.4.21:
