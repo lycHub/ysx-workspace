@@ -1,0 +1,13 @@
+{
+  "name": "@dci/shared",
+  "version": "0.0.0",
+  "private": true,
+  "typings": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./styles/*": "./src/styles/*"
+  },
+  "dependencies": {
+    "modern-normalize": "^1.1.0"
+  }
+}

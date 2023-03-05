@@ -1,0 +1,62 @@
+@use './common.scss';
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+ul, li, ol {
+	list-style: none;
+}
+
+html, body, #root {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-size: common.$text-normal;
+  word-break: break-all;
+  -webkit-font-smoothing: antialiased;
+  font-family: Helvetica, Arial, sans-serif;
+  color: var(--ry-grey-13);
+  background-color: var(--ry-grey-2);
+  line-height: 1.5;
+}
+
+a {
+  color: var(--ry-blue-5);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+svg,
+video,
+canvas,
+audio,
+iframe,
+embed,
+object {
+  display: block;
+  vertical-align: middle;
+}
+
+
+::-webkit-scrollbar{
+  width: common.$size-1;
+  height: common.$size-1;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: common.$border-radius-small;
+  box-shadow: common.$shadow-special;
+  background-color: var(--ry-grey-8);
+}
+
+/* 
+::-webkit-scrollbar-thumb {
+  @apply rounded shadow-inner bg-grey-7 border-2 border-solid border-grey-1;
+  &:hover {
+    @apply border-0;
+  }
+}
+*/

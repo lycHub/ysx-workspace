@@ -1,0 +1,41 @@
+/* https://ant.design/docs/spec/colors-cn#%E8%89%B2%E5%BD%A9%E6%A8%A1%E5%9E%8B */
+
+body {
+  --ry-grey-1: #fff;
+  --ry-grey-2: #f5f7fa;
+  --ry-grey-3: #edf2f7; /* 浅 */
+  --ry-grey-4: #e4ebf2;
+  --ry-grey-5: #dde3ed; 
+  --ry-grey-6: #d1d9e5;
+  --ry-grey-7: #c1cbd9;  /* 灰 */
+  --ry-grey-8: #a5b1c2; 
+  --ry-grey-9: #828d9e;
+  --ry-grey-10: #626c7a;
+  --ry-grey-11: #555e6b;
+  --ry-grey-12: #404952;
+  --ry-grey-13: #353d45; /* 深 */
+  --ry-grey-14: #262e36;
+  --ry-grey-15: #1a2329;
+  --ry-grey-16: #161d22;
+  --ry-grey-17: #07090d;
+
+  --ry-blue-2: #bae7ff;
+  --ry-blue-3: #91d5ff;
+  --ry-blue-4: #69c0ff;
+  --ry-blue-5: #40a9ff;
+  --ry-blue-6: #1890ff; /* primary */
+  --ry-blue-7: #096dd9;
+  --ry-blue-8: #0050b3;
+
+  --ry-red-5: #ff4d4f; 
+  --ry-red-6: #f5222d; /* primary */
+  --ry-red-7: #cf1322;
+
+  --ry-gold-5: #ffc53d;
+  --ry-gold-6: #faad14; /* primary */
+  --ry-gold-7: #d48806;
+
+  --ry-green-5: #73d13d;
+  --ry-green-6: #52c41a; /* primary */
+  --ry-green-7: #389e0d;
+}

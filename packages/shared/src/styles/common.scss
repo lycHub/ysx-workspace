@@ -1,0 +1,107 @@
+$text-sm: 12px;
+$text-normal: $text-sm + 2px;
+$text-md: $text-sm + 4px;
+$text-lg: $text-sm + 8px;
+$text-xl: $text-sm * 2;
+$text-2xl: $text-sm * 3;
+$text-3xl: $text-sm * 4;
+
+// font weight
+$font-thin: 100;
+$font-extralight: 200;
+$font-light: 300;
+$font-normal: 400;
+$font-medium: 500;
+$font-semibold: 600;
+$font-bold: 700;
+$font-extrabold: 800;
+$font-black: 900;
+
+
+// border
+$border-none: 0;
+$border-1: 1px;
+$border-2: 2px;
+$border-3: 3px;
+$border-4: 4px;
+$border-5: 5px;
+
+
+/******** radius *******/
+
+$border-radius-none: 0;
+$border-radius-small: 2px;
+$border-radius-medium: 4px;
+$border-radius-large: 8px;
+$border-radius-circle: 50%;
+
+
+/******** shadow *******/
+
+$shadow-none: none;
+$shadow-special: 0 0 1px rgba(0, 0, 0, 0.3);
+$shadow1-center: 0 0 5px rgba(0, 0, 0, 0.1);
+$shadow1-up: 0 -2px 5px rgba(0, 0, 0, 0.1);
+$shadow1-down: 0 2px 5px rgba(0, 0, 0, 0.1);
+$shadow1-left: -2px 0 5px rgba(0, 0, 0, 0.1);
+$shadow1-right: 2px 0 5px rgba(0, 0, 0, 0.1);
+$shadow1-left-up: -2px -2px 5px rgba(0, 0, 0, 0.1);
+$shadow1-left-down: -2px 2px 5px rgba(0, 0, 0, 0.1);
+$shadow1-right-up: 2px -2px 5px rgba(0, 0, 0, 0.1);
+$shadow1-right-down: 2px 2px 5px rgba(0, 0, 0, 0.1);
+$shadow2-center: 0 0 10px rgba(0, 0, 0, 0.1);
+$shadow2-up: 0 -4px 10px rgba(0, 0, 0, 0.1);
+$shadow2-down: 0 4px 10px rgba(0, 0, 0, 0.1);
+$shadow2-left: -4px 0 10px rgba(0, 0, 0, 0.1);
+$shadow2-right: 4px 0 10px rgba(0, 0, 0, 0.1);
+$shadow2-left-up: -4px -4px 10px rgba(0, 0, 0, 0.1);
+$shadow2-left-down: -4px 4px 10px rgba(0, 0, 0, 0.1);
+$shadow2-right-up: 4px -4px 10px rgba(0, 0, 0, 0.1);
+$shadow2-right-down: 4px 4px 10px rgba(0, 0, 0, 0.1);
+$shadow3-center: 0 0 20px rgba(0, 0, 0, 0.1);
+$shadow3-up: 0 -8px 20px rgba(0, 0, 0, 0.1);
+$shadow3-down: 0 8px 20px rgba(0, 0, 0, 0.1);
+$shadow3-left: -8px 0 20px rgba(0, 0, 0, 0.1);
+$shadow3-right: 8px 0 20px rgba(0, 0, 0, 0.1);
+$shadow3-left-up: -8px -8px 20px rgba(0, 0, 0, 0.1);
+$shadow3-left-down: -8px 8px 20px rgba(0, 0, 0, 0.1);
+$shadow3-right-up: 8px -8px 20px rgba(0, 0, 0, 0.1);
+$shadow3-right-down: 8px 8px 20px rgba(0, 0, 0, 0.1);
+
+/******** opacity *******/
+
+$opacity-none: 0;
+$opacity-1: 10%;
+$opacity-2: 20%;
+$opacity-3: 30%;
+$opacity-4: 40%;
+$opacity-5: 50%;
+$opacity-6: 60%;
+$opacity-7: 70%;
+$opacity-8: 80%;
+$opacity-9: 90%;
+$opacity-10: 100%;
+
+
+// size
+$size-none: 0;
+$size-1: 4px;
+$size-2: 8px;
+$size-3: 12px;
+$size-4: 16px;
+$size-5: 20px;
+$size-6: 24px;
+$size-7: 28px;
+$size-8: 32px;
+$size-9: 36px;
+$size-10: 40px;
+$size-11: 44px;
+$size-12: 48px;
+$size-13: 52px;
+$size-14: 56px;
+$size-15: 60px;
+$size-16: 64px;
+$size-17: 68px;
+$size-18: 72px;
+$size-19: 76px;
+$size-20: 80px;
