@@ -8,6 +8,8 @@
   "scripts": {
     "build:leads": "turbo run build --filter ./packages/rms-leads",
     "dev:leads": "turbo run dev --no-daemon --filter ./packages/rms-leads",
+    "dev:rs-demo": "turbo run dev --no-daemon --filter ./packages/rspack-demo",
+    "build:rs-demo": "turbo run build --filter ./packages/rspack-demo",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
@@ -16,6 +18,7 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@tsconfig/create-react-app": "^1.0.3",
     "@tsconfig/vite-react": "^1.0.1",
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
