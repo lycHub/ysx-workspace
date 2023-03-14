@@ -16,7 +16,8 @@
 			},
 			html: [
 				{
-					template: "./index.html"
+					template: "./index.html",
+					title: 'rust pack'
 				}
 			]
 		},
@@ -25,6 +26,11 @@
 				{
 					test: /\.svg$/,
 					type: "asset"
+				},
+				{
+					test: /\.scss$/,
+					use: 'sass-loader',
+					type: 'css',
 				}
 			]
 		}

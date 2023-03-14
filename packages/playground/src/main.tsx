@@ -9,6 +9,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   </React.StrictMode>
 )
 
+/*
 const myRequest = new Request('https://api.openai.com/v1/chat/completions', {
   method: 'POST',
   headers: {
@@ -21,4 +22,4 @@ const myRequest = new Request('https://api.openai.com/v1/chat/completions', {
   })
 });
 fetch(myRequest).then(response => response.json())
-.then(json => console.log(json));
+.then(json => console.log(json));*/
