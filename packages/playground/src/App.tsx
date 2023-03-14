@@ -7,7 +7,7 @@ import { Loading } from "./loading";
 
 interface Message {
 	role: string;
-	message: string;
+	content: string;
 }
 
 interface DialogueItem {
@@ -15,14 +15,15 @@ interface DialogueItem {
 	answers: Message[];
 }
 
-const loading = false;
+let loading = false;
 
 function App() {
 	const [dialogues, setDialogues] = useState<DialogueItem[]>([]);
 
-	function handleKeyup(event: KeyboardEvent) {
+	async function handleKeyup(event: KeyboardEvent) {
+		if (loading) return;
 		if (event.key.toLowerCase() === 'enter') {
-			// loading
+			loading = true;
 			const value = (event.target as HTMLInputElement).value;
 			setDialogues(data => {
 				return [
@@ -33,6 +34,21 @@ function App() {
 					}
 				]
 			});
+			try {
+				const res = await request(value);
+				const answers = res.choices.map((item: any) => item.message) as Message[];
+				setDialogues(data => {
+					const target = data.at(-1);
+					if (target) {
+						target.answers = answers;
+					}
+					return data.slice();
+				});
+			} catch (error) {
+				console.log("chat error>>>", error);
+			} finally {
+				loading = false;
+			}
 		}
 	}
 
@@ -57,9 +73,9 @@ function App() {
 
 						{
 							item.answers.length ? <div className="paragraph">
-								<p className="answer-item">answer-item</p>
-								<p className="answer-item">answer-item</p>
-								<p className="answer-item">answer-item</p>
+								{
+									item.answers.map(item => <p className="answer-item" key={item.content}>{item.content}</p>)
+								}
 							</div> : <Loading></Loading>
 						}
 
@@ -90,3 +106,19 @@ function App() {
 }
 
 export default App;
+
+
+function request(msg: string): Promise<any> {
+	const myRequest = new Request('https://api.openai.com/v1/chat/completions', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+			'Authorization': 'Bearer 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'
+		},
+		body: JSON.stringify({
+			"model": "gpt-3.5-turbo",
+			"messages": [{"role": "user", "content": msg}]
+		})
+	});
+	return fetch(myRequest).then(response => response.json());
+}
