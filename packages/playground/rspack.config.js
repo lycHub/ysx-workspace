@@ -29,7 +29,7 @@
 				},
 				{
 					test: /\.scss$/,
-					use: 'sass-loader',
+					use: ['postcss-loader', 'sass-loader'],
 					type: 'css',
 				}
 			]

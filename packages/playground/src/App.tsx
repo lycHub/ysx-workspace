@@ -4,6 +4,7 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 import "./App.scss";
 import { Loading } from "./loading";
+import { Empty } from "./empty";
 
 interface Message {
 	role: string;
@@ -91,8 +92,12 @@ function App() {
 				<h2>Chat Playground</h2>
 			</header>
 			<div className="container">
-				<TransitionGroup className="dialogues" hidden={!dialogues.length}>
-					{ renderDialogueItem() }
+				<TransitionGroup className="dialogues">
+					<>
+						{
+							dialogues.length ? renderDialogueItem() : <Empty></Empty>
+						}
+					</>
 				</TransitionGroup>
 				<div className="input-wrap">
 					{/* @ts-ignore */}
@@ -117,6 +122,7 @@ function request(msg: string): Promise<any> {
 		},
 		body: JSON.stringify({
 			"model": "gpt-3.5-turbo",
+			// n: 2,
 			"messages": [{"role": "user", "content": msg}]
 		})
 	});
