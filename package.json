@@ -8,8 +8,8 @@
   "scripts": {
     "build:leads": "turbo run build --filter ./packages/rms-leads",
     "dev:leads": "turbo run dev --no-daemon --filter ./packages/rms-leads",
-    "dev:rs-demo": "turbo run dev --no-daemon --filter ./packages/rspack-demo",
-    "build:rs-demo": "turbo run build --filter ./packages/rspack-demo",
+    "dev:playground": "turbo run dev --no-daemon --filter ./packages/playground",
+    "build:playground": "turbo run build --filter ./packages/playground",
     "dev:server": "turbo run dev --no-daemon --filter ./packages/node-server",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
