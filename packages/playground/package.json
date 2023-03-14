@@ -8,7 +8,11 @@
   },
   "devDependencies": {
     "@rspack/cli": "latest",
+    "@types/react-transition-group": "^4.4.5",
     "sass-loader": "^13.2.0",
     "webpack": "^5.76.1"
+  },
+  "dependencies": {
+    "react-transition-group": "^4.4.5"
   }
 }

@@ -1,5 +1,7 @@
-import React, { ChangeEvent } from "react";
+import React, { useRef } from "react";
 import { useState } from "react";
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
+
 import "./App.scss";
 import { Loading } from "./loading";
 
@@ -30,30 +32,41 @@ function App() {
 						answers: []
 					}
 				]
-			})
+			});
 		}
 	}
 
+	const nodeRef = useRef(null);
+
 	function renderDialogueItem() {
-		return dialogues.map(item => {
-			return <div className="dialogue-item">
-				<div className="user">
-					<img className="ava" src="/ysx.webp" alt="ysx" />
-					<p className="paragraph">{ item.question }</p>
-				</div>
-				<div className="robot">
-					<img className="ava" src="/gpt.png" alt="gpt" />
+		return dialogues.map((item, index) => {
+			return <CSSTransition
+				key={`${item.question}_${index}`}
+				in={!!item}
+				nodeRef={nodeRef}
+				timeout={300}
+				classNames="alert"
+			>
+				<div className="dialogue-item" ref={nodeRef}>
+					<div className="user">
+						<img className="ava" src="/ysx.webp" alt="ysx" />
+						<p className="paragraph">{ item.question }</p>
+					</div>
+					<div className="robot">
+						<img className="ava" src="/gpt.png" alt="gpt" />
 
-					{
-						item.answers.length ? <div className="paragraph">
-							<p className="answer-item">answer-item</p>
-							<p className="answer-item">answer-item</p>
-							<p className="answer-item">answer-item</p>
-						</div> : <Loading></Loading>
-					}
+						{
+							item.answers.length ? <div className="paragraph">
+								<p className="answer-item">answer-item</p>
+								<p className="answer-item">answer-item</p>
+								<p className="answer-item">answer-item</p>
+							</div> : <Loading></Loading>
+						}
 
+					</div>
 				</div>
-			</div>
+			</CSSTransition>
+
 		})
 	}
 	return (
@@ -62,11 +75,11 @@ function App() {
 				<h2>Chat Playground</h2>
 			</header>
 			<div className="container">
-				<div className="dialogues" hidden={!dialogues.length}>
-
+				<TransitionGroup className="dialogues" hidden={!dialogues.length}>
 					{ renderDialogueItem() }
-				</div>
+				</TransitionGroup>
 				<div className="input-wrap">
+					{/* @ts-ignore */}
 					<input className="input-control" onKeyUp={handleKeyup} placeholder="请输入" />
 					<img className="send" src="/send.png" alt="send" />
 				</div>
