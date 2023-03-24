@@ -1,4 +1,4 @@
-import React, { useId, useRef } from "react";
+import React, { useRef } from "react";
 import { useState } from "react";
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
@@ -13,7 +13,7 @@ interface Message {
 
 interface DialogueItem {
 	question: string;
-	answers: string[];
+	answers: Message[];
 }
 
 let loading = false;
@@ -37,11 +37,7 @@ function App() {
 			});
 			try {
 				const res = await request(value);
-				if (res.code !== 'ok') {
-					throw 'question error';
-				}
-
-				const answers = formatRes(res.msg);
+				const answers = res.choices.map((item: any) => item.message) as Message[];
 				setDialogues(data => {
 					const target = data.at(-1);
 					if (target) {
@@ -59,7 +55,6 @@ function App() {
 
 	const nodeRef = useRef(null);
 
-	const id = useId();
 	function renderDialogueItem() {
 		return dialogues.map((item, index) => {
 			return <CSSTransition
@@ -80,7 +75,7 @@ function App() {
 						{
 							item.answers.length ? <div className="paragraph">
 								{
-									item.answers.map(item => <p className="answer-item" key={`${id}_${item}`}>{item}</p>)
+									item.answers.map(item => <p className="answer-item" key={item.content}>{item.content}</p>)
 								}
 							</div> : <Loading></Loading>
 						}
@@ -106,7 +101,7 @@ function App() {
 				</TransitionGroup>
 				<div className="input-wrap">
 					{/* @ts-ignore */}
-					<input className="input-control" autoComplete="none" onKeyUp={handleKeyup} placeholder="请输入" />
+					<input className="input-control" onKeyUp={handleKeyup} placeholder="请输入" />
 					<img className="send" src="/send.png" alt="send" />
 				</div>
 			</div>
@@ -117,31 +112,18 @@ function App() {
 
 export default App;
 
-
-function request(msg: string): Promise<{
-	code: string;
-	msg: string;
-}> {
-	const fd = new FormData();
-
-	fd.append('question', `<|im_start|>system
-		你是基于ChatGPT模型开发的智能聊天机器人。
-		<|im_end|>
-		<|im_start|>user
-		${msg}
-		<|im_end|>
-	`);
-	fd.append('temperature', '0.6');
-	const myRequest = new Request('/chatgptapi/azure/answer', {
+function request(msg: string): Promise<any> {
+	const myRequest = new Request('https://api.openai.com/v1/chat/completions', {
 		method: 'POST',
-		body: fd
+		headers: {
+			'Content-Type': 'application/json',
+			'Authorization': 'Bearer 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'
+		},
+		body: JSON.stringify({
+			"model": "gpt-3.5-turbo",
+			// n: 2,
+			"messages": [{"role": "user", "content": msg}]
+		})
 	});
 	return fetch(myRequest).then(response => response.json());
-}
-
-
-function formatRes(msg: string) {
-	return msg.replaceAll(/\t/g, '')
-		.replace('<|im_end|>', '')
-		.split('\r\n').filter(Boolean);
 }
