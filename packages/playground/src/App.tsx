@@ -6,11 +6,6 @@ import "./App.scss";
 import { Loading } from "./loading";
 import { Empty } from "./empty";
 
-interface Message {
-	role: string;
-	content: string;
-}
-
 interface DialogueItem {
 	question: string;
 	answers: string[];
