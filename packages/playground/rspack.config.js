@@ -33,6 +33,14 @@
 					type: 'css',
 				}
 			]
-		}
+		},
+		devServer: {
+			proxy: {
+				'/chatgptapi': {
+					target: 'https://leads.dev.zeiss.com.cn',
+					changeOrigin: true,
+				},
+			},
+		},
 	};
 };

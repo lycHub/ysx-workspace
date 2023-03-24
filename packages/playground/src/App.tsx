@@ -67,7 +67,7 @@ function App() {
 				<div className="dialogue-item" ref={nodeRef}>
 					<div className="user">
 						<img className="ava" src="/ysx.webp" alt="ysx" />
-						<p className="paragraph">{ item.question }</p>
+						<p className="paragraph">{item.question}</p>
 					</div>
 					<div className="robot">
 						<img className="ava" src="/gpt.png" alt="gpt" />
@@ -114,6 +114,29 @@ export default App;
 
 
 function request(msg: string): Promise<any> {
+	const fd = new FormData();
+
+	fd.append('question', `<|im_start|>system
+		你是基于ChatGPT模型开发的智能聊天机器人。
+		<|im_end|>
+		<|im_start|>user
+		${msg}
+		<|im_end|>
+	`);
+	fd.append('temperature', '0.6');
+	const myRequest = new Request('/chatgptapi/azure/answer', {
+		method: 'POST',
+		headers: {
+		},
+		body: fd
+	});
+	return fetch(myRequest).then(response => response.json());
+}
+
+
+
+/* 
+function request(msg: string): Promise<any> {
 	const myRequest = new Request('https://api.openai.com/v1/chat/completions', {
 		method: 'POST',
 		headers: {
@@ -128,3 +151,4 @@ function request(msg: string): Promise<any> {
 	});
 	return fetch(myRequest).then(response => response.json());
 }
+*/
