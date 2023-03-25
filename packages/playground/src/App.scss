@@ -38,14 +38,10 @@
         .robot {
           padding: 16px;
           background-color: #fff;
-          .paragraph {
-
-            /*.answer-item:first-child {
-              text-indent: 32px;
-            }*/
-            .answer-item {
-              padding-block: 4px;
-            }
+          .paragraph .horn-btn {
+            width: 26px;
+            vertical-align: middle;
+            cursor: pointer;
           }
         }
       }

@@ -1,15 +1,15 @@
-import React, { useId, useRef } from "react";
+import React, { useEffect, useId, useLayoutEffect, useRef } from "react";
 import { useState } from "react";
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 import "./App.scss";
 import { Loading } from "./loading";
 import { Empty } from "./empty";
-/* const mock = {
-  "code": "ok",
-  "msg": "\t以下是一个angular cli中配置postcss的示例：\r\n\r\n\t\t1.首先安装postcss和postcss-loader:\r\n\t\t```\r\n\t\tnpm install postcss postcss-loader --save-dev\r\n\t\t```\r\n\r\n\t\t2.在项目根目录下创建postcss.config.js文件，配置postcss插件和选项：\r\n\t\t```\r\n\t\tmodule.exports = {\r\n\t\t  plugins: [\r\n\t\t    require('autoprefixer'),\r\n\t\t    require('cssnano')({\r\n\t\t      preset: 'default',\r\n\t\t    }),\r\n\t\t  ],\r\n\t\t};\r\n\t\t```\r\n\r\n\t\t3.在angular.json文件中的build配置中添加postcss-loader：\r\n\t\t```\r\n\t\t\"build\": {\r\n\t\t  \"builder\": \"@angular-devkit/build-angular:browser\",\r\n\t\t  \"options\": {\r\n\t\t    ...\r\n\t\t    \"styles\": [\r\n\t\t      \"src/styles.css\"\r\n\t\t    ],\r\n\t\t    \"stylePreprocessorOptions\": {\r\n\t\t      \"includePaths\": [\r\n\t\t        \"src/styles\"\r\n\t\t      ]\r\n\t\t    },\r\n\t\t    \"postcss\": {\r\n\t\t      \"plugins\": [\r\n\t\t        require('autoprefixer'),\r\n\t\t        require('cssnano')({\r\n\t\t          preset: 'default',\r\n\t\t        }),\r\n\t\t      ]\r\n\t\t    },\r\n\t\t    ...\r\n\t\t  },\r\n\t\t  \"configurations\": {\r\n\t\t    ...\r\n\t\t  }\r\n\t\t}\r\n\t\t```\r\n\r\n\t\t4.重新启动应用程序，postcss将在构建期间自动应用于CSS文件。<|im_end|>"
-}
- */
+ const mock = {
+	 "code": "ok",
+	 "msg": "\t您可以使用HTML5的Audio标签来实现JavaScript语音播放。例如：\r\n\r\n\t\t```javascript\r\n\t\tvar audio = new Audio('path/to/audiofile.mp3');\r\n\t\taudio.play();\r\n\t\t```\r\n\r\n\t\t其中，'path/to/audiofile.mp3'应该替换为您要播放的音频文件的实际路径。<|im_end|>"
+ }
+
 interface MsgElement {
 	type: string;
 	value: string[];
@@ -22,16 +22,34 @@ interface DialogueItem {
 
 let loading = false;
 
+
+function Horn({ onClick, hidden }: { hidden: boolean; onClick: () => void; }) {
+	return 	<button className="horn-btn" hidden={hidden} onClick={onClick}>
+		<img src="/laba.png" alt="语音" />
+	</button>
+}
+
+function MicPhone() {
+	return 	<button>
+		<img src="/micphone.png" alt="语音" />
+	</button>
+}
+
 function App() {
 	const [dialogues, setDialogues] = useState<DialogueItem[]>([]);
 	const replaceTime = useRef(0);
+	const dialoguesRef = useRef<HTMLDivElement>(null);
+
 	async function handleKeyup(event: KeyboardEvent) {
 		if (loading) return;
 		if (event.key.toLowerCase() === 'enter') {
 			loading = true;
 			replaceTime.current = 0;
+			const target = event.target as HTMLInputElement;
 			const value = (event.target as HTMLInputElement).value;
-			
+
+			/*const answers = formatRes(mock.msg);
+			const elements = formatElements(answers);*/
 		
 			setDialogues(data => {
 				return [
@@ -42,6 +60,7 @@ function App() {
 					}
 				]
 			});
+
 			try {
 				const res = await request(value);
 				if (res.code !== 'ok') {
@@ -57,6 +76,7 @@ function App() {
 					}
 					return data.slice();
 				});
+				target.value = '';
 			} catch (error) {
 				console.log("chat error>>>", error);
 			} finally {
@@ -67,11 +87,12 @@ function App() {
 
 	const nodeRef = useRef(null);
 
+	const id = useId();
 	
 	function renderDialogueItem() {
 		return dialogues.map((item, index) => {
 			return <CSSTransition
-				key={`${item.question}_${index}`}
+				key={`${item.question}_${index}-${id}`}
 				in={!!item}
 				nodeRef={nodeRef}
 				timeout={300}
@@ -87,19 +108,27 @@ function App() {
 						{
 							item.elements.length ? <div className="paragraph">
 								{
-									item.elements.map((item, index) => {
-										if (item.type === 'code') {
-											return <pre className="language-markup" key={index}>
-												<code className="language-markup">
-													{
-														item.value.map(vItem => <p className="token tag">{vItem}</p>)
-													}
-												</code>
-											</pre>
+									item.elements.map((answerItem, answerIndex) => {
+										const isLast = item.elements[answerIndex + 1];
+										if (answerItem.type === 'code') {
+											return <>
+												<pre className="language-markup" key={id + '-' + answerIndex}>
+													<code className="language-markup">
+														{
+															answerItem.value.map((vItem, vIndex) => <p className="p-row token tag" key={id + '-' + vIndex}>
+																{vItem}
+															</p>)
+														}
+													</code>
+												</pre>
+												<Horn hidden={!!isLast} onClick={() => { handlePlay(index) }} />
+											</>
 										}
 										return <>
 											{
-												item.value.map(vItem => <p className="token tag">{vItem}</p>)
+												answerItem.value.map(vItem => <p className="p-row" key={id + '-' + answerIndex}>
+													{vItem} <Horn hidden={!!isLast} onClick={() => { handlePlay(index) }} />
+												</p>)
 											}
 										</>
 									})
@@ -113,10 +142,54 @@ function App() {
 
 		})
 	}
+
+
+	const synth = window.speechSynthesis;
+	let lang = useRef<SpeechSynthesisVoice>();
+	let utterance: SpeechSynthesisUtterance;
+	// synth.cancel();
+
+	if (speechSynthesis) {
+		utterance = new SpeechSynthesisUtterance();
+		// utterance.rate  = 1;
+		utterance.onerror = function (event) {
+			console.error("SpeechSynthesisUtterance.onerror", event);
+		};
+		synth.addEventListener("voiceschanged", (event) => {
+			const voices = synth.getVoices().filter(item => item.localService);
+			// console.log("voices", voices);
+			if (voices.length) {
+				lang.current = voices.find(item => item.default)!;
+			}
+		});
+		utterance.addEventListener("end", (event) => {
+			console.log("utterance end");
+		});
+	}
+
+
+
+	function handlePlay(secIndex: number) {
+		if (!utterance || !lang.current) return;
+		// console.log("dialogues", dialogues, secIndex);
+		const textEls = dialogues[secIndex].elements.filter(item => item.type === 'text');
+		if (textEls.length) {
+			const msgs = textEls.reduce((prev, curr) => {
+				return prev += curr.value.join('');
+			}, '');
+			// console.log("msgs", msgs);
+			if (msgs) {
+				synth.cancel();
+				utterance.text = msgs;
+				synth.speak(utterance);
+			}
+		}
+	}
 	return (
 		<div className="app">
 			<header>
 				<h2>Chat Playground</h2>
+				{/*<button onClick={() => { handlePlay(0) }}>播放</button>*/}
 			</header>
 			<div className="container">
 				<TransitionGroup className="dialogues">
@@ -173,7 +246,7 @@ let pushCoding = false;
 function formatElements(list: string[]) {
 	let result: MsgElement[] = [];
 	list.forEach(item => {
-		if (item === '```') {
+		if (item.includes('```')) {
 			pushCoding = !pushCoding;
 			if (pushCoding) {
 				result.push({
