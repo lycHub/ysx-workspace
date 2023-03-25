@@ -5,11 +5,11 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import "./App.scss";
 import { Loading } from "./loading";
 import { Empty } from "./empty";
-const mock = {
+/* const mock = {
   "code": "ok",
   "msg": "\t以下是一个angular cli中配置postcss的示例：\r\n\r\n\t\t1.首先安装postcss和postcss-loader:\r\n\t\t```\r\n\t\tnpm install postcss postcss-loader --save-dev\r\n\t\t```\r\n\r\n\t\t2.在项目根目录下创建postcss.config.js文件，配置postcss插件和选项：\r\n\t\t```\r\n\t\tmodule.exports = {\r\n\t\t  plugins: [\r\n\t\t    require('autoprefixer'),\r\n\t\t    require('cssnano')({\r\n\t\t      preset: 'default',\r\n\t\t    }),\r\n\t\t  ],\r\n\t\t};\r\n\t\t```\r\n\r\n\t\t3.在angular.json文件中的build配置中添加postcss-loader：\r\n\t\t```\r\n\t\t\"build\": {\r\n\t\t  \"builder\": \"@angular-devkit/build-angular:browser\",\r\n\t\t  \"options\": {\r\n\t\t    ...\r\n\t\t    \"styles\": [\r\n\t\t      \"src/styles.css\"\r\n\t\t    ],\r\n\t\t    \"stylePreprocessorOptions\": {\r\n\t\t      \"includePaths\": [\r\n\t\t        \"src/styles\"\r\n\t\t      ]\r\n\t\t    },\r\n\t\t    \"postcss\": {\r\n\t\t      \"plugins\": [\r\n\t\t        require('autoprefixer'),\r\n\t\t        require('cssnano')({\r\n\t\t          preset: 'default',\r\n\t\t        }),\r\n\t\t      ]\r\n\t\t    },\r\n\t\t    ...\r\n\t\t  },\r\n\t\t  \"configurations\": {\r\n\t\t    ...\r\n\t\t  }\r\n\t\t}\r\n\t\t```\r\n\r\n\t\t4.重新启动应用程序，postcss将在构建期间自动应用于CSS文件。<|im_end|>"
 }
-
+ */
 interface MsgElement {
 	type: string;
 	value: string[];
