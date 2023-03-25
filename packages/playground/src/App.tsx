@@ -47,7 +47,7 @@ function App() {
 				if (res.code !== 'ok') {
 					throw 'question error';
 				}
-				const answers = formatRes(mock.msg);
+				const answers = formatRes(res.msg);
 				const elements = formatElements(answers);
 
 				setDialogues(data => {
