@@ -5,28 +5,40 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import "./App.scss";
 import { Loading } from "./loading";
 import { Empty } from "./empty";
+const mock = {
+  "code": "ok",
+  "msg": "\t以下是一个angular cli中配置postcss的示例：\r\n\r\n\t\t1.首先安装postcss和postcss-loader:\r\n\t\t```\r\n\t\tnpm install postcss postcss-loader --save-dev\r\n\t\t```\r\n\r\n\t\t2.在项目根目录下创建postcss.config.js文件，配置postcss插件和选项：\r\n\t\t```\r\n\t\tmodule.exports = {\r\n\t\t  plugins: [\r\n\t\t    require('autoprefixer'),\r\n\t\t    require('cssnano')({\r\n\t\t      preset: 'default',\r\n\t\t    }),\r\n\t\t  ],\r\n\t\t};\r\n\t\t```\r\n\r\n\t\t3.在angular.json文件中的build配置中添加postcss-loader：\r\n\t\t```\r\n\t\t\"build\": {\r\n\t\t  \"builder\": \"@angular-devkit/build-angular:browser\",\r\n\t\t  \"options\": {\r\n\t\t    ...\r\n\t\t    \"styles\": [\r\n\t\t      \"src/styles.css\"\r\n\t\t    ],\r\n\t\t    \"stylePreprocessorOptions\": {\r\n\t\t      \"includePaths\": [\r\n\t\t        \"src/styles\"\r\n\t\t      ]\r\n\t\t    },\r\n\t\t    \"postcss\": {\r\n\t\t      \"plugins\": [\r\n\t\t        require('autoprefixer'),\r\n\t\t        require('cssnano')({\r\n\t\t          preset: 'default',\r\n\t\t        }),\r\n\t\t      ]\r\n\t\t    },\r\n\t\t    ...\r\n\t\t  },\r\n\t\t  \"configurations\": {\r\n\t\t    ...\r\n\t\t  }\r\n\t\t}\r\n\t\t```\r\n\r\n\t\t4.重新启动应用程序，postcss将在构建期间自动应用于CSS文件。<|im_end|>"
+}
+
+interface MsgElement {
+	type: string;
+	value: string[];
+}
 
 interface DialogueItem {
 	question: string;
-	answers: string[];
+	elements: MsgElement[];
 }
 
 let loading = false;
 
 function App() {
 	const [dialogues, setDialogues] = useState<DialogueItem[]>([]);
-
+	const replaceTime = useRef(0);
 	async function handleKeyup(event: KeyboardEvent) {
 		if (loading) return;
 		if (event.key.toLowerCase() === 'enter') {
 			loading = true;
+			replaceTime.current = 0;
 			const value = (event.target as HTMLInputElement).value;
+			
+		
 			setDialogues(data => {
 				return [
 					...data,
 					{
 						question: value,
-						answers: []
+						elements: []
 					}
 				]
 			});
@@ -35,12 +47,13 @@ function App() {
 				if (res.code !== 'ok') {
 					throw 'question error';
 				}
+				const answers = formatRes(mock.msg);
+				const elements = formatElements(answers);
 
-				const answers = formatRes(res.msg);
 				setDialogues(data => {
 					const target = data.at(-1);
 					if (target) {
-						target.answers = answers;
+						target.elements = elements;
 					}
 					return data.slice();
 				});
@@ -54,7 +67,7 @@ function App() {
 
 	const nodeRef = useRef(null);
 
-	const id = useId();
+	
 	function renderDialogueItem() {
 		return dialogues.map((item, index) => {
 			return <CSSTransition
@@ -71,11 +84,25 @@ function App() {
 					</div>
 					<div className="robot">
 						<img className="ava" src="/gpt.png" alt="gpt" />
-
 						{
-							item.answers.length ? <div className="paragraph">
+							item.elements.length ? <div className="paragraph">
 								{
-									item.answers.map(item => <p className="answer-item" key={`${id}_${item}`}>{item}</p>)
+									item.elements.map((item, index) => {
+										if (item.type === 'code') {
+											return <pre className="language-markup" key={index}>
+												<code className="language-markup">
+													{
+														item.value.map(vItem => <p className="token tag">{vItem}</p>)
+													}
+												</code>
+											</pre>
+										}
+										return <>
+											{
+												item.value.map(vItem => <p className="token tag">{vItem}</p>)
+											}
+										</>
+									})
 								}
 							</div> : <Loading></Loading>
 						}
@@ -135,8 +162,39 @@ function request(msg: string): Promise<{
 }
 
 
+
 function formatRes(msg: string) {
 	return msg.replaceAll(/\t/g, '')
 		.replace('<|im_end|>', '')
 		.split('\r\n').filter(Boolean);
+}
+
+let pushCoding = false;
+function formatElements(list: string[]) {
+	let result: MsgElement[] = [];
+	list.forEach(item => {
+		if (item === '```') {
+			pushCoding = !pushCoding;
+			if (pushCoding) {
+				result.push({
+					type: 'code',
+					value: []
+				});
+			}
+		} else {
+			if (pushCoding) {
+				const target = result.at(-1);
+				if (target?.type === 'code') {
+					target.value.push(item);
+				}
+			} else {
+				result.push({
+					type: 'text',
+					value: [item]
+				});
+			}
+		}
+		
+	});
+	return result;
 }
