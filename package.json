@@ -10,6 +10,7 @@
     "dev:leads": "turbo run dev --no-daemon --filter ./packages/rms-leads",
     "dev:playground": "turbo run dev --no-daemon --filter ./packages/playground",
     "build:playground": "turbo run build --filter ./packages/playground",
+    "preview:playground": "turbo run preview --filter ./packages/playground",
     "dev:server": "turbo run dev --no-daemon --filter ./packages/node-server",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
@@ -25,6 +26,9 @@
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
     "@vitejs/plugin-react": "^3.1.0",
+    "connect-history-api-fallback": "^2.0.0",
+    "express": "^4.18.2",
+    "http-proxy-middleware": "^2.0.6",
     "postcss": "^8.4.21",
     "prettier": "latest",
     "turbo": "latest",

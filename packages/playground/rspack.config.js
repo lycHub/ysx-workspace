@@ -19,7 +19,10 @@
 					template: "./index.html",
 					title: 'rust pack'
 				}
-			]
+			],
+			copy: {
+				patterns: ['public']
+			}
 		},
 		module: {
 			rules: [
