@@ -5,6 +5,7 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import "./App.scss";
 import { Loading } from "./loading";
 import { Empty } from "./empty";
+import { useSpeech } from "./hooks/useSpeech";
  const mock = {
 	 "code": "ok",
 	 "msg": "\t您可以使用HTML5的Audio标签来实现JavaScript语音播放。例如：\r\n\r\n\t\t```javascript\r\n\t\tvar audio = new Audio('path/to/audiofile.mp3');\r\n\t\taudio.play();\r\n\t\t```\r\n\r\n\t\t其中，'path/to/audiofile.mp3'应该替换为您要播放的音频文件的实际路径。<|im_end|>"
@@ -38,7 +39,11 @@ function MicPhone() {
 function App() {
 	const [dialogues, setDialogues] = useState<DialogueItem[]>([]);
 	const replaceTime = useRef(0);
-	const dialoguesRef = useRef<HTMLDivElement>(null);
+	const anchorRef = useRef<HTMLElement>(null);
+
+	useEffect(() => {
+		anchorRef.current?.scrollIntoView(true);
+	}, [dialogues]);
 
 	async function handleKeyup(event: KeyboardEvent) {
 		if (loading) return;
@@ -60,7 +65,6 @@ function App() {
 					}
 				]
 			});
-
 			try {
 				const res = await request(value);
 				if (res.code !== 'ok') {
@@ -143,29 +147,7 @@ function App() {
 		})
 	}
 
-
-	const synth = window.speechSynthesis;
-	let lang = useRef<SpeechSynthesisVoice>();
-	let utterance: SpeechSynthesisUtterance;
-	// synth.cancel();
-
-	if (speechSynthesis) {
-		utterance = new SpeechSynthesisUtterance();
-		// utterance.rate  = 1;
-		utterance.onerror = function (event) {
-			console.error("SpeechSynthesisUtterance.onerror", event);
-		};
-		synth.addEventListener("voiceschanged", (event) => {
-			const voices = synth.getVoices().filter(item => item.localService);
-			// console.log("voices", voices);
-			if (voices.length) {
-				lang.current = voices.find(item => item.default)!;
-			}
-		});
-		utterance.addEventListener("end", (event) => {
-			console.log("utterance end");
-		});
-	}
+	const { synth, utterance, lang } = useSpeech();
 
 
 
@@ -197,6 +179,7 @@ function App() {
 						{
 							dialogues.length ? renderDialogueItem() : <Empty></Empty>
 						}
+						<span ref={anchorRef}>Anchor</span>
 					</>
 				</TransitionGroup>
 				<div className="input-wrap">
