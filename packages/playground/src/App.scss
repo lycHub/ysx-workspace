@@ -55,31 +55,42 @@
       }
     }
 
-    .input-wrap {
-      position: relative;
-      max-width: 800px;
-      margin-inline: auto;
-      margin-top: 16px;
-      .input-control {
-        color: #1a2329;
-        width: 100%;
-        outline: none;
-        border: 1px solid #f2f2f2;
-        background-color: #fff;
-        padding: 10px;
-        border-radius: $chat-border-radius;
-        transition: border-color .2s ease-in-out;
-      }
 
-      .input-control:focus {
-        border-color: #00B42A;
+    .actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 16px;
+      .input-wrap {
+        position: relative;
+        width: 100%;
+        max-width: 800px;
+        .input-control {
+          color: #1a2329;
+          width: 100%;
+          outline: none;
+          border: 1px solid #f2f2f2;
+          background-color: #fff;
+          padding: 10px;
+          border-radius: $chat-border-radius;
+          transition: border-color .2s ease-in-out;
+        }
+        .input-control:focus {
+          border-color: #00B42A;
+        }
+        .send {
+          position: absolute;
+          width: 26px;
+          right: 10px;
+          margin-top: -13px;
+          top: 50%;
+          cursor: pointer;
+        }
       }
-      .send {
-        position: absolute;
+      .microphone-btn {
         width: 26px;
-        right: 10px;
-        margin-top: -13px;
-        top: 50%;
+        margin-left: 4px;
+        cursor: pointer;
       }
     }
   }

@@ -9,7 +9,7 @@ module.exports = {
       selectorBlackList: [],
       replace: true,
       mediaQuery: false,
-      minPixelValue: 2,
+      minPixelValue: 4,
       exclude: /node_modules/i
   })
   ]

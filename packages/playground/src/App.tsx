@@ -1,4 +1,4 @@
-import React, { useEffect, useId, useLayoutEffect, useRef } from "react";
+import React, { ChangeEvent, useEffect, useId, useLayoutEffect, useMemo, useRef } from "react";
 import { useState } from "react";
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
@@ -6,6 +6,8 @@ import "./App.scss";
 import { Loading } from "./loading";
 import { Empty } from "./empty";
 import { useSpeech } from "./hooks/useSpeech";
+import { useSpeechRecognize } from "./hooks/useSpeechRecognize";
+import useUpdate from "./hooks/useUpdate";
  const mock = {
 	 "code": "ok",
 	 "msg": "\t您可以使用HTML5的Audio标签来实现JavaScript语音播放。例如：\r\n\r\n\t\t```javascript\r\n\t\tvar audio = new Audio('path/to/audiofile.mp3');\r\n\t\taudio.play();\r\n\t\t```\r\n\r\n\t\t其中，'path/to/audiofile.mp3'应该替换为您要播放的音频文件的实际路径。<|im_end|>"
@@ -26,66 +28,74 @@ let loading = false;
 
 function Horn({ onClick, hidden }: { hidden: boolean; onClick: () => void; }) {
 	return 	<button className="horn-btn" hidden={hidden} onClick={onClick}>
-		<img src="/laba.png" alt="语音" />
+		<img src="/horn.png" alt="语音" />
 	</button>
 }
 
-function MicPhone() {
-	return 	<button>
-		<img src="/micphone.png" alt="语音" />
+function Microphone({ listening, onClick }: { listening: boolean; onClick: () => void; }) {
+	return 	<button className="microphone-btn" onClick={onClick}>
+		<img src={ listening ? '/mirrophone-stop.png' : '/mirrophone.png' } alt="语音" />
 	</button>
 }
 
 function App() {
 	const [dialogues, setDialogues] = useState<DialogueItem[]>([]);
-	const replaceTime = useRef(0);
 	const anchorRef = useRef<HTMLElement>(null);
 
 	useEffect(() => {
 		anchorRef.current?.scrollIntoView(true);
 	}, [dialogues]);
 
-	async function handleKeyup(event: KeyboardEvent) {
+	const [inputValue, setInputValue] = useState('');
+
+	function handleInputChange(event: ChangeEvent<HTMLInputElement>) {
+		setInputValue(event.target.value);
+	}
+
+	function handleKeyup(event: KeyboardEvent) {
 		if (loading) return;
 		if (event.key.toLowerCase() === 'enter') {
-			loading = true;
-			replaceTime.current = 0;
-			const target = event.target as HTMLInputElement;
-			const value = (event.target as HTMLInputElement).value;
+			send();
+		}
+	}
 
-			/*const answers = formatRes(mock.msg);
-			const elements = formatElements(answers);*/
-		
-			setDialogues(data => {
-				return [
-					...data,
-					{
-						question: value,
-						elements: []
-					}
-				]
-			});
-			try {
-				const res = await request(value);
-				if (res.code !== 'ok') {
-					throw 'question error';
+	async function send() {
+		if (!inputValue) return;
+		loading = true;
+
+		/*const answers = formatRes(mock.msg);
+    const elements = formatElements(answers);*/
+
+		setDialogues(data => {
+			return [
+				...data,
+				{
+					question: inputValue,
+					elements: []
 				}
-				const answers = formatRes(res.msg);
-				const elements = formatElements(answers);
+			]
+		});
+		setInputValue('');
 
-				setDialogues(data => {
-					const target = data.at(-1);
-					if (target) {
-						target.elements = elements;
-					}
-					return data.slice();
-				});
-				target.value = '';
-			} catch (error) {
-				console.log("chat error>>>", error);
-			} finally {
-				loading = false;
+		try {
+			const res = await request(inputValue);
+			if (res.code !== 'ok') {
+				throw 'question error';
 			}
+			const answers = formatRes(res.msg);
+			const elements = formatElements(answers);
+
+			setDialogues(data => {
+				const target = data.at(-1);
+				if (target) {
+					target.elements = elements;
+				}
+				return data.slice();
+			});
+		} catch (error) {
+			console.log("chat error>>>", error);
+		} finally {
+			loading = false;
 		}
 	}
 
@@ -167,6 +177,17 @@ function App() {
 			}
 		}
 	}
+
+	const { toggle, result, isListening } = useSpeechRecognize(() => {
+		console.log("end>>>");
+		setInputValue(result.current);
+	});
+
+	function handleMicroPhone() {
+		toggle();
+	}
+
+
 	return (
 		<div className="app">
 			<header>
@@ -179,14 +200,19 @@ function App() {
 						{
 							dialogues.length ? renderDialogueItem() : <Empty></Empty>
 						}
-						<span ref={anchorRef}>Anchor</span>
+						<span ref={anchorRef} style={{ visibility: 'hidden' }}>Anchor</span>
 					</>
 				</TransitionGroup>
-				<div className="input-wrap">
-					{/* @ts-ignore */}
-					<input className="input-control" autoComplete="none" onKeyUp={handleKeyup} placeholder="请输入" />
-					<img className="send" src="/send.png" alt="send" />
+				<div className="actions">
+					<div className="input-wrap">
+						{/* @ts-ignore */}
+						<input className="input-control" autoComplete="none" value={inputValue} onChange={handleInputChange} onKeyUp={handleKeyup} placeholder="请输入" />
+						<img className="send" onClick={send} src="/send.png" alt="send" />
+
+					</div>
+					<Microphone listening={isListening} onClick={handleMicroPhone} />
 				</div>
+
 			</div>
 
 		</div>
