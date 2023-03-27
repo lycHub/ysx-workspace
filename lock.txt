@@ -1,6 +1,7 @@
 lockfileVersion: 5.4
 
 importers:
+
   .:
     specifiers:
       '@tsconfig/create-react-app': ^1.0.3
