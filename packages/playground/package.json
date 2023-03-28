@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "rspack serve",
     "build": "rspack build",
-    "preview": "pm2 start server.js"
+    "preview": "node server.js"
   },
   "devDependencies": {
     "@rspack/cli": "latest",
