@@ -2,7 +2,7 @@ const express = require('express');
 const history = require('connect-history-api-fallback');
 const { createProxyMiddleware } = require('http-proxy-middleware');
 const app = express();
-const PORT = 80;
+const PORT = 3333;
 app.use(history());
 app.use(express.static('dist'));
 app.use('/chatgptapi', createProxyMiddleware({
