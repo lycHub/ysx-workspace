@@ -38,6 +38,7 @@
 			]
 		},
 		devServer: {
+			historyApiFallback: true,
 			proxy: {
 				'/chatgptapi': {
 					target: 'https://leads.dev.zeiss.com.cn',
