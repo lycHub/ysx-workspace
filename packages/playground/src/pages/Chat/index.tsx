@@ -7,7 +7,7 @@ import { Loading } from "../../loading";
 import { Empty } from "../../empty";
 import { useSpeech } from "../../hooks/useSpeech";
 import { useSpeechRecognize } from "../../hooks/useSpeechRecognize";
-import ReactRouterPrompt from "react-router-prompt";
+import ReactRouterPrompt from "../../hooks/prompt";
 
 const mock = {
   "code": "ok",

@@ -6,9 +6,7 @@
   const isProduction = process.env.NODE_ENV === 'production';
   return {
 		context: __dirname,
-		entry: {
-			main: "./src/main.tsx"
-		},
+		entry: "./src/main.tsx",
 		devtool: isProduction ? false : 'source-map',
 		builtins: {
 			minifyOptions: {

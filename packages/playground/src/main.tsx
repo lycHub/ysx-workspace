@@ -2,13 +2,15 @@ import React, { lazy, Suspense } from "react";
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import './styles/index.scss';
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { BrowserRouter, createHashRouter, RouterProvider } from "react-router-dom";
 import { Home } from "./pages/Home";
 import { ErrorPage } from "./pages/error";
+import { ErrorBoundary } from "react-error-boundary";
 
 const Chat = lazy(() => import('./pages/Chat'));
+const Animate = lazy(() => import('./pages/Animate'));
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: "/",
     element: <App />,
@@ -22,6 +24,10 @@ const router = createBrowserRouter([
         path: "chat",
         element: <Chat />
       },
+      {
+        path: "animate",
+        element: <Animate />
+      },
     ]
   },
 
@@ -31,7 +37,12 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <Suspense fallback={<span>Loading....</span>}>
-      <RouterProvider router={router} />
+      <ErrorBoundary FallbackComponent={ErrorPage}>
+        <RouterProvider router={router} fallbackElement={<span>Init....</span>} />
+      </ErrorBoundary>
     </Suspense>
+    {/*<BrowserRouter>
+      <App />
+    </BrowserRouter>*/}
   </React.StrictMode>
 )

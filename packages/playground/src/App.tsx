@@ -9,7 +9,8 @@ function App() {
 		<h2>App Here</h2>
 		<nav>
 			<NavLink to="">首页</NavLink> |
-			<NavLink to="chat">Chat</NavLink>
+			<NavLink to="/chat">Chat</NavLink> |
+			<NavLink to="/animate">Animate</NavLink> |
 		</nav>
 		<Outlet />
 	</div>
