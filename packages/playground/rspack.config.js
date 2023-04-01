@@ -15,7 +15,8 @@
 			html: [
 				{
 					template: "./index.html",
-					title: 'rust pack'
+					title: 'rust pack',
+					scriptLoading: 'module'
 				}
 			],
 			copy: {
