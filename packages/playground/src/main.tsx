@@ -6,6 +6,7 @@ import { BrowserRouter, createHashRouter, RouterProvider } from "react-router-do
 import { Home } from "./pages/Home";
 import { ErrorPage } from "./pages/error";
 import { ErrorBoundary } from "react-error-boundary";
+import Grid from "./pages/Grid";
 
 const Chat = lazy(() => import('./pages/Chat'));
 const Animate = lazy(() => import('./pages/Animate'));
@@ -27,6 +28,10 @@ const router = createHashRouter([
       {
         path: "animate",
         element: <Animate />
+      },
+      {
+        path: "grid",
+        element: <Grid />
       },
     ]
   },
